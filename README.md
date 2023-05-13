@@ -22,4 +22,4 @@ instead of 709 MHz to let GPU load go up to about 80%.
 However, current available VF curve tool does not fit.
 
 ## How to use
-See Wiki for more details.
+See [Wiki](https://github.com/mhtvsSFrpHdE/precision-x1-curve-editor/wiki) for more details.
