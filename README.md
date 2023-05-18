@@ -1,4 +1,5 @@
 # precision-x1-curve-editor
+<img width="1032" src="https://raw.githubusercontent.com/mhtvsSFrpHdE/precision-x1-curve-editor/main/Resource/Demo.png"/>
 Underclock, environment friendly, your GPU will start to counting sheep.
 
 ## What is this
