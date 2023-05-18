@@ -4,9 +4,7 @@ import xml.etree.ElementTree as ET
 
 # Which profile to modify
 targetProfile = 0
-# You may want to signtly lower two available level
-# My card final frequency may higher than I thought (not always)
-# For example, if want 1012 but get 1037, then set 987 to get 1012
+# Set one of available clock speed from nvidia-smi
 targetClock = 708
 # Set to true when underclock curve is available
 # When set to False, points before targetClock will be set to 0
@@ -61,6 +59,7 @@ underclockedVfPoints = underclockCurve.findall("./*") if enableUnderclock else N
 notNegativeResult = False
 for GpuProfile in GpuProfiles:
     profileIndex = int(GpuProfile.find('index').text)
+    # Modify target profile
     if profileIndex == targetProfile:
         offsetItemLists = GpuProfile.findall('./Items/GpuProfile/AutoScanResult/offsets/*')
 
@@ -89,6 +88,19 @@ for GpuProfile in GpuProfiles:
             offsetFrequencyKhz.text = str(offsetValue)
 
             print(str(index + 1) + ' After: ' + offsetFrequencyKhz.text)
+
+    # After reboot, X1 treat offset of 708 as offset of 721 or 749 for unknown readon
+    # But load profile 9 (DefaultCurve.xml), close X1, open X1, load profile 0 seems fixed this
+    # Reset startup profile to emulate such behavior to fix curve distortion
+    # 4294967295 in X1 config means "last time used profile"
+    if profileIndex == 4294967295:
+        offsetItemLists = GpuProfile.findall('./Items/GpuProfile/AutoScanResult/offsets/*')
+
+        for index, offsetItem in enumerate(offsetItemLists):
+            offsetFrequencyKhz = offsetItem.find('offsetFrequencyKhz')
+            minimumOffsetFrequencyKhz = minimumVfPoints[index].find('offsetFrequencyKhz')
+            offsetFrequencyKhz.text = minimumOffsetFrequencyKhz.text
+
 
 if notNegativeResult:
     print(f"{bcolors.WARNING}Warning: One or more value great than zero and may cause your card to burn if too much{bcolors.ENDC}")
