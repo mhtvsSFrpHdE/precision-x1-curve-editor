@@ -5,10 +5,11 @@ import xml.etree.ElementTree as ET
 # Which profile to modify
 targetProfile = 0
 # Set one of available clock speed from nvidia-smi
-# You may want to signtly lower two available level
-# My card final frequency may higher than I thought (not always)
-# For example, if want 1012 but get 1037, then set 987 to get 1012
-targetClock = 708
+# You may want to slightly lower one or more available level
+# For example, if want 1012 but get 1037
+# See wiki "Troubleshoot" for more details
+# https://github.com/mhtvsSFrpHdE/precision-x1-curve-editor/wiki/x1curve.py#troubleshoot
+targetClock = 645
 # Set to true when underclock curve is available
 # When set to False, points before targetClock will be set to 0
 # In case you don't want to try underclock
